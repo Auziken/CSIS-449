@@ -50,6 +50,12 @@ public class GameController implements Initializable {
     private Text gameText;
 
     @FXML
+    private Text redScore;
+
+    @FXML
+    private Text blueScore;
+
+    @FXML
     private Button newGameButton;
 
     @FXML
@@ -83,9 +89,20 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Initializing the Game Board
         testTextGameType.setText(data.getGameType());
+        testTextBoardSize.setText("Board size: " + data.getBoardSize());
 
-        //Setting the initial turn to start with the Blue Player
-        gameText.setText("Blue Player's Turn");
+        // Initialize the text boxes
+        gameText.setText("Current Turn: Blue");
+
+        if (data.getGameType() == "General Game"){
+            blueScore.setText("Score: " + 0);
+            redScore.setText("Score: " + 0);
+        }
+        else { // Hide the score values if it isn't a general game, as there's only one scoring point to win otherwise.
+            blueScore.setVisible(false);
+            redScore.setVisible(false);
+        }
+
 
         //Creating the button array to be filled by (Board Size)^2 many buttons
         buttonArray = new ArrayList<>();
@@ -98,8 +115,7 @@ public class GameController implements Initializable {
         computerPlayer = new Computer();
         computerPlayer.setPlayerVal(data.getComputerPlayer());
 
-        //If Computer Players are used, this is a needed edge case to get them to start playing
-        // as normally they only react to the other player's moves
+        //If Computer Players are used, this is a needed edge case to get them to start playing, as normally they only react to the other player's moves
         if (computerPlayer.getPlayerVal() == 2 || computerPlayer.getPlayerVal() == 3) {
             int moveIndex = computerPlayer.firstMove(board.getBoardSize());
             if (moveIndex < 0) {
@@ -191,17 +207,17 @@ public class GameController implements Initializable {
 
     public boolean checkWin() {
         int tempState = board.getGameState();
-        if (tempState == 1) {
+        if (tempState == 2) {
             gameEnd();
             gameText.setText("Red wins!");
             return true;
         }
-        else if (tempState == 2) {
+        else if (tempState == 3) {
             gameEnd();
             gameText.setText("Blue wins!");
             return true;
         }
-        else if (tempState == -1) {
+        else if (tempState == 1) {
             gameEnd();
             gameText.setText("Tie!");
             return true;
@@ -214,11 +230,13 @@ public class GameController implements Initializable {
     public void changeTurn() { // Change boolean depending on player turn
         if (board.getBlueTurn()) {
             board.setBlueTurn(false);
-            gameText.setText("Player Red's turn");
+            gameText.setText("Current Turn: Red");
+            blueScore.setText("Score: " + board.getBlueScore());
         }
         else {
             board.setBlueTurn(true);
-            gameText.setText("Player Blue's turn");
+            gameText.setText("Current Turn: Blue");
+            redScore.setText("Score: " + board.getRedScore());
         }
     }
 

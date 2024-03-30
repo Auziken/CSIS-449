@@ -20,6 +20,7 @@ public class DataContainer { // data containers are extremely useful in situatio
         return gameType;
     }
 
+
     public int getComputerPlayer() { return computerPlayer; }
 
     // public boolean getRecordGame() { return recordGame; }

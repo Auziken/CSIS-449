@@ -31,7 +31,133 @@ public class GameBoard {
         }
     }
 
+    public void sValid(int x, int y){ // i wish there was a better way to do this
+        boolean above = false, below = false, left = false, right = false;
 
+        if (y - 1 >= 0 && y - 2 >= 0){
+            above = true;
+            if (boardState[x][y-1] == -1 && boardState[x][y-2] == 1){
+                addPoint();
+            }
+            /*
+            [S]
+            [O]
+            [S] <- HERE
+             */
+        }
+        if (y + 1 < boardSize && y + 2 < boardSize) {
+            below = true;
+            if (boardState[x][y+1] == -1 && boardState[x][y+2] == 1) {
+                addPoint();
+            }
+            /*
+            [S] <- HERE
+            [O]
+            [S]
+             */
+        }
+        if (x - 1 >= 0 && x - 2 >= 0) {
+            left = true;
+            if (boardState[x-1][y] == -1 && boardState[x-2][y] == 1) {
+                addPoint();
+            }
+            /*
+            [S][O][S] <- HERE
+             */
+        }
+        if (x + 1 < boardSize && x + 2 < boardSize) {
+            right = true;
+            if (boardState[x+1][y] == -1 && boardState[x+2][y] == 1) {
+                addPoint();
+            }
+            /*
+            HERE -> [S][O][S]
+             */
+        }
+        if (above && left) {
+            if (boardState[x-1][y-1] == -1 && boardState[x-2][y-2] == 1)  {
+                addPoint();
+            }
+            /*
+            [S]
+             [O]
+              [S] <- HERE
+             */
+        }
+        if (above && right) {
+            if (boardState[x+1][y-1] == -1 && boardState[x+2][y-2] == 1) {
+                addPoint();
+            }
+             /*
+              [S]
+             [O]
+            [S] <- HERE
+             */
+        }
+        if (below && left) {
+            if (boardState[x-1][y+1] == -1 && boardState[x-2][y+2] == 1) {
+                addPoint();
+            }
+             /*
+              [S] <- HERE
+             [O]
+            [S]
+             */
+        }
+        if (below && right) {
+            if (boardState[x+1][y+1] == -1 && boardState[x+2][y+2] == 1) {
+                addPoint();
+            }
+            /*
+            [S] <- HERE
+             [O]
+              [S]
+             */
+        }
+    }
+
+    void oValid(int x, int y) {
+        int horizontal = 0;
+        int vertical = 0;
+        int leftDiagonal = 0;
+        int rightDiagonal = 0;
+
+        if (x + 1 < boardSize && x - 1 >= 0 && y + 1 < boardSize && y - 1 >= 0) { // within the bounds of the game
+            horizontal = boardState[x-1][y] + boardState[x][y] + boardState[x+1][y];
+            vertical = boardState[x][y-1] + boardState[x][y] + boardState[x][y+1];
+            leftDiagonal = boardState[x-1][y-1] + boardState[x][y] + boardState[x+1][y+1];
+            rightDiagonal = boardState[x+1][y-1] + boardState[x][y] + boardState[x-1][y+1];
+        }
+        else if (x + 1 < boardSize && x - 1 >= 0) {
+            horizontal = boardState[x-1][y] + boardState[x][y] + boardState[x+1][y];
+        }
+        else if (y + 1 < boardSize && y - 1 >= 0) {
+            vertical = boardState[x][y-1] + boardState[x][y] + boardState[x][y+1];
+        }
+
+        // basically if any of these four alignments add up to one that means a successful SOS was created
+        if (horizontal == 1) {
+            addPoint();
+        }
+        if (vertical == 1) {
+            addPoint();
+        }
+        if (leftDiagonal == 1) {
+            addPoint();
+        }
+        if (rightDiagonal == 1) {
+            addPoint();
+        }
+    }
+
+    void addPoint(){
+        if(isBlueTurn){
+            blueScore += 1;
+        }
+        else{
+            redScore += 1;
+        }
+    }
 
     public void playMove(int squareIndex, char playerChoice){
         int value; // value will either be 1 or -1 depending on if it's an S or O, respectively
@@ -41,10 +167,12 @@ public class GameBoard {
         if (playerChoice == 'S'){
             value = 1;
             boardState[x][y] = value;
+            sValid(x, y);
         }
         else{
             value = -1;
             boardState[x][y] = value;
+            oValid(x, y);
         }
 
         turnNum += 1;
@@ -72,6 +200,7 @@ public class GameBoard {
         }
     }
 
+
     // Getters and Setters
     public int[][] getBoardState(){
         return boardState;
@@ -87,6 +216,12 @@ public class GameBoard {
     }
     public boolean getBlueTurn(){
         return isBlueTurn;
+    }
+    public int getBlueScore(){
+        return blueScore;
+    }
+    public int getRedScore(){
+        return redScore;
     }
     public void setBlueTurn(boolean blueTurn){
         this.isBlueTurn = blueTurn;
