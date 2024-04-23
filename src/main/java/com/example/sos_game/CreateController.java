@@ -44,7 +44,7 @@ public class CreateController implements Initializable {
     @FXML
     private RadioButton generalGame;
 
-    /*
+
     @FXML
     private RadioButton recordFalse;
 
@@ -53,7 +53,7 @@ public class CreateController implements Initializable {
 
     @FXML
     private RadioButton recordTrue;
-     */
+
 
     @FXML
     private RadioButton simpleGame;
@@ -89,14 +89,9 @@ public class CreateController implements Initializable {
             data.setComputerPlayer(3);
         }
 
-        /*
-        if(recordGame.getSelectedToggle().equals(recordTrue)) {
-            data.setRecordGame(true);
-        }
-        else {
-            data.setRecordGame(false);
-        }
-         */
+
+        data.setRecordGame(recordGame.getSelectedToggle().equals(recordTrue));
+
 
 
         Stage gameStage = (Stage) startGameButton.getScene().getWindow();

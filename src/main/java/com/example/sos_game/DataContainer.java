@@ -5,7 +5,7 @@ public class DataContainer { // data containers are extremely useful in situatio
     private int boardSize;
     private String gameType;
     private int computerPlayer;
-    // private boolean recordGame;
+    private boolean recordGame;
 
     private DataContainer(){}
 
@@ -23,7 +23,7 @@ public class DataContainer { // data containers are extremely useful in situatio
 
     public int getComputerPlayer() { return computerPlayer; }
 
-    // public boolean getRecordGame() { return recordGame; }
+    public boolean getRecordGame() { return recordGame; }
 
     public void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
@@ -34,5 +34,5 @@ public class DataContainer { // data containers are extremely useful in situatio
 
     public void setComputerPlayer(int computerPlayer) { this.computerPlayer = computerPlayer; }
 
-    // public void setRecordGame(boolean recordGame) { this.recordGame = recordGame; }
+    public void setRecordGame(boolean recordGame) { this.recordGame = recordGame; }
 }
