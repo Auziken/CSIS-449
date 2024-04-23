@@ -46,16 +46,5 @@
       <RadioButton fx:id="computerRed" layoutX="152.0" layoutY="99.0" mnemonicParsing="false" text="Red Player" toggleGroup="$computerPlayers" />
       <RadioButton fx:id="computerBlue" layoutX="152.0" layoutY="120.0" mnemonicParsing="false" text="Blue Player" toggleGroup="$computerPlayers" />
       <RadioButton fx:id="computerBoth" layoutX="152.0" layoutY="140.0" mnemonicParsing="false" text="Both" toggleGroup="$computerPlayers" />
-      <Text layoutX="22.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Record Game" textAlignment="CENTER">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <RadioButton fx:id="recordTrue" layoutX="22.0" layoutY="191.0" mnemonicParsing="false" selected="true" text="Yes">
-         <toggleGroup>
-            <ToggleGroup fx:id="recordGame" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="recordFalse" layoutX="22.0" layoutY="210.0" mnemonicParsing="false" text="No" toggleGroup="$recordGame" />
    </children>
 </AnchorPane>

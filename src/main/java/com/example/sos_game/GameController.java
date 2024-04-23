@@ -34,9 +34,6 @@ public class GameController implements Initializable {
     Computer computerPlayer;
 
 
-    Recorder recorder;
-
-
     @FXML
     private RadioButton blueO;
 
@@ -107,12 +104,6 @@ public class GameController implements Initializable {
         }
 
 
-        if (data.getRecordGame()) {
-            recorder = new Recorder();
-            recorder.resetRecord();
-            recorder.writeTime();
-        }
-
         //Creating the button array to be filled by (Board Size)^2 many buttons
         buttonArray = new ArrayList<>();
         board  = new GameBoard();
@@ -130,15 +121,9 @@ public class GameController implements Initializable {
             if (moveIndex < 0) {
                 blueO.setSelected(true);
                 moveIndex = moveIndex * -1;
-                if (data.getRecordGame()){
-                    recorder.writeMove('O', moveIndex, true, board.getBoardSize());
-                }
             }
             else {
                 blueS.setSelected(true);
-                if (data.getRecordGame()){
-                    recorder.writeMove('S', moveIndex, true, board.getBoardSize());
-                }
             }
             System.out.println(moveIndex);
             Button moveButton = buttonArray.get(moveIndex);
@@ -211,16 +196,10 @@ public class GameController implements Initializable {
         if ((board.getBlueTurn() && blueToggle.getSelectedToggle().equals(blueS)) || !board.getBlueTurn() && redToggle.getSelectedToggle().equals(redS)) {
             button.setText("S");
             board.playMove(buttonIndex, 'S');
-            if (data.getRecordGame()) {
-                recorder.writeMove('S', buttonIndex, board.isBlueTurn, board.getBoardSize());
-            }
         }
         else {
             button.setText("O");
             board.playMove(buttonIndex, '0');
-            if (data.getRecordGame()) {
-                recorder.writeMove('O', buttonIndex, board.isBlueTurn, board.getBoardSize());
-            }
         }
         button.setDisable(true);
         button.setOpacity(1.0);
@@ -231,25 +210,16 @@ public class GameController implements Initializable {
         if (tempState == 2) {
             gameEnd();
             gameText.setText("Red wins!");
-            if (data.getRecordGame()){
-                recorder.writeWin(tempState);
-            }
             return true;
         }
         else if (tempState == 3) {
             gameEnd();
             gameText.setText("Blue wins!");
-            if (data.getRecordGame()){
-                recorder.writeWin(tempState);
-            }
             return true;
         }
         else if (tempState == 1) {
             gameEnd();
             gameText.setText("Tie!");
-            if (data.getRecordGame()){
-                recorder.writeWin(tempState);
-            }
             return true;
         }
         else {
